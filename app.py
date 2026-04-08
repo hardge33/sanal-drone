@@ -20,11 +20,12 @@ def generate():
     if not image_base64:
         return jsonify({'error': 'Gorsel bulunamadi'}), 400
 
-    img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.jpg')
     img_data = image_base64
-if ',' in img_data:
-    img_data = img_data.split(',')[1]
-img_tmp.write(base64.b64decode(img_data))
+    if ',' in img_data:
+        img_data = img_data.split(',')[1]
+
+    img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.jpg')
+    img_tmp.write(base64.b64decode(img_data))
     img_tmp.close()
 
     output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
@@ -49,7 +50,7 @@ img_tmp.write(base64.b64decode(img_data))
     ]
 
     try:
-        result = subprocess.run(ffmpeg_cmd, check=True, capture_output=True)
+        subprocess.run(ffmpeg_cmd, check=True, capture_output=True)
         with open(output_path, 'rb') as f:
             video_base64 = base64.b64encode(f.read()).decode()
         os.unlink(img_tmp.name)
