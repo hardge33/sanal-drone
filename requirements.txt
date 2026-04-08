@@ -1,5 +1,7 @@
 flask
 requests
 Pillow
-moviepy
+moviepy==1.0.3
 numpy
+imageio
+imageio-ffmpeg
