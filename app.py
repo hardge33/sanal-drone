@@ -60,7 +60,7 @@ def generate():
             '-loop', '1',
             '-i', img_tmp.name,
             '-vf', vf,
-            '-t', '8',
+            '-t', '5',
             '-pix_fmt', 'yuv420p',
             '-c:v', 'libx264',
             output_path
