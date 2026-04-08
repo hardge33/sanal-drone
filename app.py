@@ -21,7 +21,10 @@ def generate():
         return jsonify({'error': 'Gorsel bulunamadi'}), 400
 
     img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.jpg')
-    img_tmp.write(base64.b64decode(image_base64))
+    img_data = image_base64
+if ',' in img_data:
+    img_data = img_data.split(',')[1]
+img_tmp.write(base64.b64decode(img_data))
     img_tmp.close()
 
     output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
