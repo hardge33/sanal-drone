@@ -24,7 +24,7 @@ def generate():
     if ',' in img_data:
         img_data = img_data.split(',')[1]
 
-    img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.jpg')
+    img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
     img_tmp.write(base64.b64decode(img_data))
     img_tmp.close()
 
