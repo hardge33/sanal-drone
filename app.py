@@ -12,21 +12,24 @@ def health():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    data = request.json
-    image_base64 = data.get('image')
-    logo = data.get('logo', 'ILANDIO')
-    alt_yazi = data.get('alt_yazi', '')
-
-    if not image_base64:
-        return jsonify({'error': 'Gorsel bulunamadi'}), 400
-
-    img_data = image_base64
-    if ',' in img_data:
-        img_data = img_data.split(',')[1]
-
-    img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
-    img_tmp.write(base64.b64decode(img_data))
-    img_tmp.close()
+    # Hem JSON hem form data destekle
+    if request.content_type and 'multipart' in request.content_type:
+        logo = request.form.get('logo', 'ILANDIO')
+        alt_yazi = request.form.get('alt_yazi', '')
+        if 'image' not in request.files:
+            return jsonify({'error': 'Gorsel bulunamadi'}), 200
+        image_file = request.files['image']
+        img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+        image_file.save(img_tmp.name)
+    else:
+        data = request.get_json(force=True)
+        logo = data.get('logo', 'ILANDIO')
+        alt_yazi = data.get('alt_yazi', '')
+        image_base64 = data.get('image', '')
+        img_data = image_base64.split(',')[-1] if ',' in image_base64 else image_base64
+        img_tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+        img_tmp.write(base64.b64decode(img_data))
+        img_tmp.close()
 
     output_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
 
