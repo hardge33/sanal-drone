@@ -46,7 +46,8 @@ def generate():
     try:
         subprocess.run(ffmpeg_cmd, check=True, capture_output=True)
     except subprocess.CalledProcessError as e:
-        return jsonify({'error': 'Video üretilemedi', 'detail': e.stderr.decode()}), 500
+        except subprocess.CalledProcessError as e:
+    return jsonify({'error': 'Video üretilemedi', 'detail': e.stderr.decode(), 'stdout': e.stdout.decode()}), 200
 
     with open(output_path, 'rb') as f:
         video_base64 = base64.b64encode(f.read()).decode()
