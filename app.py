@@ -49,7 +49,7 @@ def generate():
 
         vf = (
             "scale=1080:1080,"
-            "zoompan=z='min(zoom+0.002,1.5)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=125:s=1080x1080,"
+            "zoompan=z='min(zoom+0.002,1.5)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=75:s=1080x1080,"
             "fade=t=in:st=0:d=1,"
             "drawtext=text='{}':fontcolor=white:fontsize=48:x=50:y=H-100:box=1:boxcolor=black@0.5:boxborderw=10,"
             "drawtext=text='{}':fontcolor=white:fontsize=28:x=50:y=H-50:box=1:boxcolor=black@0.5:boxborderw=8"
